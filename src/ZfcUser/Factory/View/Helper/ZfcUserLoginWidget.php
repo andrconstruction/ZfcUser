@@ -1,15 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Clayton Daley
- * Date: 5/6/2015
- * Time: 6:54 PM
- */
 
 namespace ZfcUser\Factory\View\Helper;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 use ZfcUser\View;
 
 class ZfcUserLoginWidget implements FactoryInterface
@@ -21,9 +15,12 @@ class ZfcUserLoginWidget implements FactoryInterface
      * @param ServiceLocatorInterface $serviceManager
      * @return mixed
      */
-    public function createService(ServiceLocatorInterface $serviceManager)
-    {
-        $locator = $serviceManager->getServiceLocator();
+    public function __invoke(
+        ContainerInterface $container,
+        $requestedName,
+        array $options = null
+    ){
+        $locator = $container;
         $viewHelper = new View\Helper\ZfcUserLoginWidget;
         $viewHelper->setViewTemplate($locator->get('zfcuser_module_options')->getUserLoginWidgetViewTemplate());
         $viewHelper->setLoginForm($locator->get('zfcuser_login_form'));

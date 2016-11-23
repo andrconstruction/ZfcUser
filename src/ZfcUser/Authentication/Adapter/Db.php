@@ -195,7 +195,7 @@ class Db extends AbstractAdapter
      * @param ServiceManager $locator
      * @return void
      */
-    public function setServiceManager(ServiceManager $serviceManager)
+    public function setServiceManager($serviceManager)
     {
         $this->serviceManager = $serviceManager;
     }

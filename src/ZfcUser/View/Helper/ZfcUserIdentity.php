@@ -4,6 +4,7 @@ namespace ZfcUser\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 use Zend\Authentication\AuthenticationService;
+use Interop\Container\ContainerInterface;
 
 class ZfcUserIdentity extends AbstractHelper
 {
@@ -11,41 +12,21 @@ class ZfcUserIdentity extends AbstractHelper
      * @var AuthenticationService
      */
     protected $authService;
+    
+    public function __construct(
+        AuthenticationService $zfcuserAuthService
+    ){
+        $this->authService = $zfcuserAuthService;
+    }
 
-    /**
-     * __invoke
-     *
-     * @access public
-     * @return \ZfcUser\Entity\UserInterface
-     */
-    public function __invoke()
-    {
-        if ($this->getAuthService()->hasIdentity()) {
-            return $this->getAuthService()->getIdentity();
+    public function __invoke(
+        
+    ){
+        if ($this->authService->hasIdentity()) {
+            return $this->authService->getIdentity();
         } else {
             return false;
         }
     }
 
-    /**
-     * Get authService.
-     *
-     * @return AuthenticationService
-     */
-    public function getAuthService()
-    {
-        return $this->authService;
-    }
-
-    /**
-     * Set authService.
-     *
-     * @param AuthenticationService $authService
-     * @return \ZfcUser\View\Helper\ZfcUserIdentity
-     */
-    public function setAuthService(AuthenticationService $authService)
-    {
-        $this->authService = $authService;
-        return $this;
-    }
 }

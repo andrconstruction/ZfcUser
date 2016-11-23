@@ -9,23 +9,22 @@
 namespace ZfcUser\Factory\Form;
 
 use Zend\Form\FormElementManager;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 use ZfcUser\Form;
 use ZfcUser\Validator;
 
 class ChangeEmail implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $formElementManager)
-    {
-        if ($formElementManager instanceof FormElementManager) {
-            $sm = $formElementManager->getServiceLocator();
-            $fem = $formElementManager;
-        } else {
-            $sm = $formElementManager;
-            $fem = $sm->get('FormElementManager');
-        }
-
+    public function __invoke(
+        ContainerInterface $container,
+        $requestedName,
+        array $options = null
+    ){
+        
+        $sm = $container;
+        $fem = $sm->get('FormElementManager');
+    
         $options = $sm->get('zfcuser_module_options');
         $form = new Form\ChangeEmail(null, $options);
         // Inject the FormElementManager to support custom FormElements

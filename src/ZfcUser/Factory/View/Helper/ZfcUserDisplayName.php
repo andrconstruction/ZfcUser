@@ -1,31 +1,23 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Clayton Daley
- * Date: 5/6/2015
- * Time: 6:52 PM
- */
 
 namespace ZfcUser\Factory\View\Helper;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use ZfcUser\View;
+use Interop\Container\ContainerInterface;
+
 
 class ZfcUserDisplayName implements FactoryInterface
 {
 
-    /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceManager
-     * @return mixed
-     */
-    public function createService(ServiceLocatorInterface $serviceManager)
-    {
-        $locator = $serviceManager->getServiceLocator();
+    public function __invoke(
+        ContainerInterface $container,
+        $requestedName,
+        array $options = null
+    ){
         $viewHelper = new View\Helper\ZfcUserDisplayName;
-        $viewHelper->setAuthService($locator->get('zfcuser_auth_service'));
+        /* @todo inject via constructor */
+        $viewHelper->setAuthService($container->get('zfcuser_auth_service'));
         return $viewHelper;
     }
 }

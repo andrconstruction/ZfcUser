@@ -287,11 +287,11 @@ class User extends EventProvider
     /**
      * Return the Form Hydrator
      *
-     * @return \Zend\Stdlib\Hydrator\ClassMethods
+     * @return Zend\Hydrator\ClassMethods
      */
     public function getFormHydrator()
     {
-        if (!$this->formHydrator instanceof Hydrator\HydratorInterface) {
+        if (!$this->formHydrator instanceof Zend\Hydrator\HydratorInterface) {
             $this->setFormHydrator($this->getServiceManager()->get('zfcuser_register_form_hydrator'));
         }
 

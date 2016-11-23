@@ -9,8 +9,8 @@
 namespace ZfcUser\Factory\Controller;
 
 use Zend\Mvc\Controller\ControllerManager;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 use ZfcUser\Controller\RedirectCallback;
 use ZfcUser\Controller\UserController;
 
@@ -23,10 +23,12 @@ class UserControllerFactory implements FactoryInterface
      * @param ServiceLocatorInterface $controllerManager
      * @return mixed
      */
-    public function createService(ServiceLocatorInterface $controllerManager)
-    {
-        /* @var ControllerManager $controllerManager*/
-        $serviceManager = $controllerManager->getServiceLocator();
+    public function __invoke(
+        ContainerInterface $container,
+        $requestedName,
+        array $options = null
+    ){
+        $serviceManager = $container;
 
         /* @var RedirectCallback $redirectCallback */
         $redirectCallback = $serviceManager->get('zfcuser_redirect_callback');

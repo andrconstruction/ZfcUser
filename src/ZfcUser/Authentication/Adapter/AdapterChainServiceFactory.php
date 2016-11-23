@@ -1,8 +1,8 @@
 <?php
 namespace ZfcUser\Authentication\Adapter;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 use ZfcUser\Authentication\Adapter\AdapterChain;
 use ZfcUser\Options\ModuleOptions;
 use ZfcUser\Authentication\Adapter\Exception\OptionsNotFoundException;
@@ -15,15 +15,18 @@ class AdapterChainServiceFactory implements FactoryInterface
      */
     protected $options;
 
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        $requestedName,
+        array $options = null
+    ){
         $chain = new AdapterChain();
 
-        $options = $this->getOptions($serviceLocator);
+        $options = $this->getOptions($container);
 
         //iterate and attach multiple adapters and events if offered
         foreach ($options->getAuthAdapters() as $priority => $adapterName) {
-            $adapter = $serviceLocator->get($adapterName);
+            $adapter = $container->get($adapterName);
 
             if (is_callable(array($adapter, 'authenticate'))) {
                 $chain->getEventManager()->attach('authenticate', array($adapter, 'authenticate'), $priority);
@@ -57,7 +60,7 @@ class AdapterChainServiceFactory implements FactoryInterface
      * @return ModuleOptions $options
      * @throws OptionsNotFoundException If options tried to retrieve without being set but no SL was provided
      */
-    public function getOptions(ServiceLocatorInterface $serviceLocator = null)
+    public function getOptions($serviceLocator = null)
     {
         if (!$this->options) {
             if (!$serviceLocator) {

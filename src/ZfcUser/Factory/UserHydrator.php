@@ -1,15 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Clayton Daley
- * Date: 5/6/2015
- * Time: 6:41 PM
- */
+
 
 namespace ZfcUser\Factory;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class UserHydrator implements FactoryInterface
 {
@@ -20,8 +15,11 @@ class UserHydrator implements FactoryInterface
      * @param ServiceLocatorInterface $serviceLocator
      * @return mixed
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return new \Zend\Stdlib\Hydrator\ClassMethods();
+    public function __invoke(
+        ContainerInterface $container,
+        $requestedName,
+        array $options = null
+    ){
+        return new \Zend\Hydrator\ClassMethods();
     }
 }
