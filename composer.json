@@ -1,5 +1,5 @@
 {
-    "name": "alphen/zfcuser",
+    "name": "andrconstruction/zfcuser",
     "description": "A generic user registration and authentication module for ZF2. Supports Zend\\Db and Doctrine2.",
     "type": "library",
     "license": "BSD-3-Clause",
